@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poke, Pokemon</title>
+    <style>
+        .colums {
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .list {
+            padding: 0 25% 0% 25%;
+            background-color: #FF1F1F;
+            color: #fff;
+        }
+        
+        .detail {
+            padding: 0 25% 0% 25%;
+            background-color: #5DB9FF;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="colums">
+        <div class="list">
+            <ul id="pokemonList">
+                <h2>Pokemon</h2>
+            </ul>
+        </div>
+        <div id="detail" class="detail">
+            <h2>Detail</h2>
+        </div>
+    </div>
+    <script>
+        //onLoad
+        fetch('https://pokeapi.co/api/v2/pokemon')
+            .then(
+                function(response) {
+                    if (response.status != 200) {
+                        console.log(`Oopss... ${response.status}`)
+                        return
+                    }
+
+                    response.json().then(function(data) {
+                        const pokemons = data.results
+                        pokemons.forEach(pokemon => {
+                            document.getElementById('pokemonList')
+                                .insertAdjacentHTML('beforeend',
+                                    `<li onclick='detail("${pokemon.url}")'> ${pokemon.name} </li>`
+                                )
+                        })
+                    })
+                }
+            )
+            .catch(function(err) {
+                console.log(err)
+            })
+
+        function detail(url) {
+            fetch(url).then(function(response) {
+                response.json().then(function(pokemon) {
+
+                    document.getElementById('detail').innerHTML = ''
+
+                    document.getElementById('detail')
+                        .insertAdjacentHTML('beforeend',
+                            `<h3> ${pokemon.name} </h3>
+                            <img src='${pokemon.sprites.front_default}'>
+                            <p> Jurus: ${pokemon.moves[0].move.name} </p>
+                            <p> Tinggi: ${pokemon.height} </p>
+                            <p> Berat: ${pokemon.weight} </p>
+                            `
+                        )
+                })
+            })
+        }
+    </script>
+</body>
+
+</html>
