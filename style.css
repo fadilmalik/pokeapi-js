@@ -1,0 +1,16 @@
+.colums {
+    display: flex;
+    justify-content: space-around;
+}
+
+.list {
+    padding: 0 20% 0% 20%;
+    background-color: #FF1F1F;
+    color: #fff;
+}
+
+.detail {
+    padding: 0 20% 0% 20%;
+    background-color: #5DB9FF;
+    color: #fff;
+}
